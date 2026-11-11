@@ -121,12 +121,12 @@ finals2 = (strip([('SERIES', 'Lucian 4 – 0 Josiah'), ('CHAMPION', 'Lucian'), H
 def s3_row(g):
     return game_row(g, dict(key='spurs98', player='Josiah'), dict(key='cavs0607', player='Lucian', winner=True))
 s3_played = ''.join(s3_row(f'G{n}') for n in (1, 2, 3))
-s3_unplayed = ''.join(game_row(f'G{n}', dict(key='spurs98', player='Josiah'), dict(key='cavs0607', player='Lucian'), muted='Never played — series closed') for n in (4, 5, 6, 7))
-series3 = (strip([('SERIES', 'Lucian 3 – 0 Josiah'), ('STATUS', 'Closed — unfinished'), ('CHAMPION', 'None'), H2H, ('TROPHY', 'Unclaimed')])
+s3_unplayed = ''.join(game_row(f'G{n}', dict(key='spurs98', player='Josiah'), dict(key='cavs0607', player='Lucian'), muted='Not played yet — series to be continued') for n in (4, 5, 6, 7))
+series3 = (strip([('SERIES', 'Lucian 3 – 0 Josiah'), ('STATUS', 'On hold — to be continued'), ('CHAMPION', 'None'), H2H, ('TROPHY', 'Unclaimed')])
     + '<h2 class="headline">ROBINSON\'S BEST WASN\'T ENOUGH</h2>'
-    + matchup_box('spurs98', 'cavs0607', 'SERIES 3 — CLOSED 3-0', 'NO CHAMPION')
+    + matchup_box('spurs98', 'cavs0607', 'FINALS 3 — ON HOLD AT 3-0', 'NO CHAMPION YET')
     + f'<div class="results">{s3_played}</div>'
-    + unplayed_details('Never played — series closed', s3_unplayed, 4)
+    + unplayed_details('Not played yet — series to be continued', s3_unplayed, 4)
     + wire_details('GAME RECAPS', ['JAMES, CAVS TAKE GAME 1 FROM SPURS', 'JAMES, CAVS REPEL SPURS\' RALLY FOR 2-0 LEAD', 'JAMES, CAVS BURY SPURS FOR 3-0 LEAD'])
     + wire_details('FROM THE WIRE', ['CAVS WIN GAME 1 — SERIES 1-0', 'CAVS HANDLE SPURS AGAIN, GO UP 2-0', 'CAVS ROUT SPURS, ONE WIN FROM THE SWEEP']))
 
@@ -287,7 +287,7 @@ page = f"""<!DOCTYPE html>
 <button role="tab" id="tab-rounds" aria-controls="rounds" aria-selected="true">The Rounds</button>
 <button role="tab" id="tab-finals1" aria-controls="finals1" aria-selected="false" tabindex="-1">Finals 1</button>
 <button role="tab" id="tab-finals2" aria-controls="finals2" aria-selected="false" tabindex="-1">Finals 2</button>
-<button role="tab" id="tab-series3" aria-controls="series3" aria-selected="false" tabindex="-1">Series 3</button>
+<button role="tab" id="tab-series3" aria-controls="series3" aria-selected="false" tabindex="-1">Finals 3</button>
 </nav>
 <section class="panel active" id="rounds" role="tabpanel" aria-labelledby="tab-rounds" tabindex="0">{rounds}</section>
 <section class="panel" id="finals1" role="tabpanel" aria-labelledby="tab-finals1" tabindex="0">{finals1}</section>
