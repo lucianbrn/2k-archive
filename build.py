@@ -131,16 +131,16 @@ series3 = (strip([('SERIES', 'Lucian 3 – 0 Josiah'), ('STATUS', 'On hold — t
     + wire_details('FROM THE WIRE', ['CAVS WIN GAME 1 — SERIES 1-0', 'CAVS HANDLE SPURS AGAIN, GO UP 2-0', 'CAVS ROUT SPURS, ONE WIN FROM THE SWEEP']))
 
 # ---- RÉSUMÉS (aligned shared grid; fixed label column; max 3 most-used teams) ----
-def resume(name, trophies, overall, finals, rounds_rec, winrate, most_used):
+def resume(name, trophies, playstyle, overall, finals, rounds_rec, winrate, most_used):
     t = ''.join(trophy_span("mini-trophy") for _ in range(trophies))
     mu = ' · '.join(f'{chip(k)} {TEAMS[k][0]} ({c})' for k, c in most_used)
-    rows = [('Overall', overall), ('Finals', finals), ('Rounds', rounds_rec), ('Win rate', winrate), ('Most used', mu)]
-    body = ''.join(f'<div class="rrow{" mu" if l == "Most used" else ""}"><span class="rlab">{l}</span><span class="rval">{v}</span></div>' for l, v in rows)
+    rows = [('Playstyle', f'<span class="pstyle">{playstyle}</span>'), ('Overall', overall), ('Finals', finals), ('Rounds', rounds_rec), ('Win rate', winrate), ('Most used', mu)]
+    body = ''.join(f'<div class="rrow{" mu" if l == "Most used" else " ps" if l == "Playstyle" else ""}"><span class="rlab">{l}</span><span class="rval">{v}</span></div>' for l, v in rows)
     return (f'<section class="resume"><div class="rname"><h2>{name}</h2><span class="trophies">{t}</span></div>{body}</section>')
 
 resumes = ('<div class="resumes">'
-    + resume('LUCIAN', 2, '13 – 2', '2 – 0 · Titles: 2', '2 – 2', '87%', [('cavs16', 4), ('mavs19', 4), ('cavs0607', 3)])
-    + resume('JOSIAH', 0, '2 – 13', '0 – 2 · Titles: 0', '2 – 2', '13%', [('spurs98', 4), ('clippers14', 4), ('rockets19', 4)])
+    + resume('LUCIAN', 2, 'UNSELFISH · RELENTLESS · SUFFOCATING', '13 – 2', '2 – 0 · Titles: 2', '2 – 2', '87%', [('cavs16', 4), ('mavs19', 4), ('cavs0607', 3)])
+    + resume('JOSIAH', 0, 'BIG-CENTRIC · RESILIENT · FADING', '2 – 13', '0 – 2 · Titles: 0', '2 – 2', '13%', [('spurs98', 4), ('clippers14', 4), ('rockets19', 4)])
     + '</div>')
 
 # One CSS class per asset — each PNG inlined exactly once (see header note).
@@ -170,6 +170,7 @@ __LOGOS__
 .rrow.mu{min-height:46px;align-items:start;padding-top:5px}
 .rlab{color:#595959;font-size:11px;letter-spacing:1.2px;text-transform:uppercase}
 .rval{font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.pstyle{font-variant:small-caps;letter-spacing:1.2px;font-size:13px;line-height:1.35}
 .rval .chip{width:26px;height:26px}
 nav.tabs{display:flex;border-bottom:2px solid #111;position:sticky;top:0;background:#fff;z-index:5}
 nav.tabs button{flex:1;background:none;border:none;border-right:1px solid #ddd;padding:12px 4px;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:pointer;min-height:48px;color:#111;font-family:inherit}
@@ -227,6 +228,7 @@ footer{margin-top:22px;border-top:1px solid #ddd;padding-top:8px;font-size:11px;
   .rname{height:32px}
   .rname h2{font-size:19px}
   .rrow{grid-template-columns:57px 1fr;min-height:32px}
+  .rrow.ps{min-height:64px}
   .rrow.mu{min-height:168px}
   .rlab{letter-spacing:0;text-transform:none}
   .rval{font-size:12.5px}
