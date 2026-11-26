@@ -133,16 +133,16 @@ series3 = (strip([('SERIES', 'Lucian 3 – 0 Josiah'), ('STATUS', 'On hold — t
     + wire_details('FROM THE WIRE', ['CAVS WIN GAME 1 — SERIES 1-0', 'CAVS HANDLE SPURS AGAIN, GO UP 2-0', 'CAVS ROUT SPURS, ONE WIN FROM THE SWEEP']))
 
 # ---- RÉSUMÉS (aligned shared grid; fixed label column; max 3 most-used teams) ----
-def resume(name, trophies, playstyle, accolades, overall, finals, rounds_rec, winrate, most_used):
+def resume(name, trophies, playstyle, accolades, overall, finals, rounds_rec, winrate, most_used, cls=''):
     t = ''.join(trophy_span("mini-trophy") for _ in range(trophies))
     mu = most_used if isinstance(most_used, str) else ' · '.join(f'{chip(k)} {TEAMS[k][0]} ({c})' for k, c in most_used)
     rows = [('Playstyle', f'<span class="pstyle">{playstyle}</span>'), ('Accolades', accolades), ('Overall', overall), ('Finals', finals), ('Rounds', rounds_rec), ('Win rate', winrate), ('Most used', mu)]
     body = ''.join(f'<div class="rrow{" mu" if l == "Most used" else " ps" if l == "Playstyle" else " acc" if l == "Accolades" else ""}"><span class="rlab">{l}</span><span class="rval">{v}</span></div>' for l, v in rows)
-    return (f'<section class="resume"><div class="rname"><h2>{name}</h2><span class="trophies">{t}</span></div>{body}</section>')
+    return (f'<section class="resume{cls}"><div class="rname"><h2>{name}</h2><span class="trophies">{t}</span></div>{body}</section>')
 
 resumes = ('<div class="resumes">'
     + resume('LUCIAN BRUCKER', 2, 'UNSELFISH · RELENTLESS · SUFFOCATING', '2× Champion · Two 4–0 sweeps · W12 streak', '13 – 2', '2 – 0 · Titles: 2', '2 – 2', '87%', [('cavs16', 4), ('mavs19', 4), ('cavs0607', 3)])
-    + resume('JOSIAH GOODWIN-HAMLIN', 0, 'BIG-CENTRIC · RESILIENT · FADING', 'Wins over \'96 Bulls + \'01 76ers · 0 titles', '2 – 13', '0 – 2 · Titles: 0', '2 – 2', '13%', [('spurs98', 4), ('clippers14', 4), ('rockets19', 4)])
+    + resume('JOSIAH GOODWIN-HAMLIN', 0, 'BIG-CENTRIC · RESILIENT · FADING', 'Wins over \'96 Bulls + \'01 76ers · 0 titles', '2 – 13', '0 – 2 · Titles: 0', '2 – 2', '13%', [('spurs98', 4), ('clippers14', 4), ('rockets19', 4)], cls=' josiah')
     + resume('ABDUL GUEYE', 0, 'NO · GAMES · YET', 'New challenger · No games yet', '0 – 0', '0 – 0 · Titles: 0', '0 – 0', '—', 'No games yet')
     + '</div>')
 
@@ -168,6 +168,7 @@ __LOGOS__
 .resume{border:1px solid #262626;padding:12px 14px;background:linear-gradient(180deg,#101010,#0a0a0a);position:relative}
 .resume::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#7dd7ff,#e8b4ff,#ffe9a8,#9ff5d2,#7dd7ff)}
 .resume::after{content:"★";position:absolute;top:8px;right:10px;font-size:11px;color:#d8b25c}
+.resume.josiah{background-color:#0a0a0a;background-image:linear-gradient(180deg,rgba(0,0,0,.60) 0%,rgba(0,0,0,.72) 45%,rgba(0,0,0,.95) 100%),url("assets/josiah-card.webp");background-size:cover;background-position:center 20%;background-repeat:no-repeat}
 .rname{display:flex;align-items:center;gap:8px;min-height:34px;border-bottom:1px solid #262626;margin-bottom:8px;padding:3px 0}
 .rname h2{font-family:Georgia,serif;font-size:22px;letter-spacing:1px;line-height:1.15;color:#f5f5f0}
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
@@ -318,9 +319,10 @@ page = f"""<!DOCTYPE html>
 # single self-contained UTF-8 index.html (GitHub connector snapshot pushes
 # accept UTF-8 text only, no binaries). No asset bytes are duplicated.
 import base64, os
+MIME = {'.png': 'image/png', '.webp': 'image/webp', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg'}
 for fn in sorted(os.listdir('assets')):
     with open(f'assets/{fn}', 'rb') as fh:
-        uri = 'data:image/png;base64,' + base64.b64encode(fh.read()).decode()
+        uri = 'data:' + MIME[os.path.splitext(fn)[1].lower()] + ';base64,' + base64.b64encode(fh.read()).decode()
     page = page.replace(f'url("assets/{fn}")', f'url("{uri}")')
 assert 'assets/' not in page, 'uninlined asset remains'
 
