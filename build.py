@@ -168,7 +168,7 @@ __LOGOS__
 .resume{border:1px solid #262626;padding:12px 14px;background:linear-gradient(180deg,#101010,#0a0a0a);position:relative}
 .resume::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#7dd7ff,#e8b4ff,#ffe9a8,#9ff5d2,#7dd7ff)}
 .resume::after{content:"★";position:absolute;top:8px;right:10px;font-size:11px;color:#d8b25c}
-.resume.josiah{background-color:#0a0a0a;background-image:linear-gradient(180deg,rgba(0,0,0,.60) 0%,rgba(0,0,0,.72) 45%,rgba(0,0,0,.95) 100%),url("assets/josiah-card.webp");background-size:cover;background-position:center 20%;background-repeat:no-repeat}
+.resume.josiah{background-color:#0a0a0a;background-image:linear-gradient(180deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.90) 40%,rgba(0,0,0,.94) 70%,rgba(0,0,0,.97) 100%),url("assets/josiah-card.webp");background-size:cover;background-position:center 20%;background-repeat:no-repeat}
 .resume.abdul{background-color:#0a0a0a;background-image:linear-gradient(180deg,rgba(0,0,0,.60) 0%,rgba(0,0,0,.72) 45%,rgba(0,0,0,.95) 100%),url("assets/abdul-card.webp");background-size:cover;background-position:center 20%;background-repeat:no-repeat}
 .rname{display:flex;align-items:center;gap:8px;min-height:34px;border-bottom:1px solid #262626;margin-bottom:8px;padding:3px 0}
 .rname h2{font-family:Georgia,serif;font-size:22px;letter-spacing:1px;line-height:1.15;color:#f5f5f0}
