@@ -1,6 +1,8 @@
 # Build script for the 2K Archive static page. Edit data here and re-run.
 # Future game updates: edit the data structures, run `python3 build.py`, commit + push -> Vercel auto-deploys.
 # Redesign 2026-11-11 (Council-gated): layout/a11y refactor ONLY — all data literals unchanged.
+# Theme 2026-11-26 (Lucian's order): pitch-black Y2K-retro/modern-minimal theme, Abdul Gueye
+# profile added, Accolades row on all profiles — Lucian/Josiah data literals unchanged.
 # Imagery: each of the 14 assets/ PNGs is inlined exactly ONCE, as a CSS background class
 # (data URIs cannot be shared between <img> tags in a single file). Logo/trophy spans carry
 # role="img" + aria-label as the alt-text equivalent. index.html is GENERATED — never hand-edit it.
@@ -131,16 +133,17 @@ series3 = (strip([('SERIES', 'Lucian 3 – 0 Josiah'), ('STATUS', 'On hold — t
     + wire_details('FROM THE WIRE', ['CAVS WIN GAME 1 — SERIES 1-0', 'CAVS HANDLE SPURS AGAIN, GO UP 2-0', 'CAVS ROUT SPURS, ONE WIN FROM THE SWEEP']))
 
 # ---- RÉSUMÉS (aligned shared grid; fixed label column; max 3 most-used teams) ----
-def resume(name, trophies, playstyle, overall, finals, rounds_rec, winrate, most_used):
+def resume(name, trophies, playstyle, accolades, overall, finals, rounds_rec, winrate, most_used):
     t = ''.join(trophy_span("mini-trophy") for _ in range(trophies))
-    mu = ' · '.join(f'{chip(k)} {TEAMS[k][0]} ({c})' for k, c in most_used)
-    rows = [('Playstyle', f'<span class="pstyle">{playstyle}</span>'), ('Overall', overall), ('Finals', finals), ('Rounds', rounds_rec), ('Win rate', winrate), ('Most used', mu)]
-    body = ''.join(f'<div class="rrow{" mu" if l == "Most used" else " ps" if l == "Playstyle" else ""}"><span class="rlab">{l}</span><span class="rval">{v}</span></div>' for l, v in rows)
+    mu = most_used if isinstance(most_used, str) else ' · '.join(f'{chip(k)} {TEAMS[k][0]} ({c})' for k, c in most_used)
+    rows = [('Playstyle', f'<span class="pstyle">{playstyle}</span>'), ('Accolades', accolades), ('Overall', overall), ('Finals', finals), ('Rounds', rounds_rec), ('Win rate', winrate), ('Most used', mu)]
+    body = ''.join(f'<div class="rrow{" mu" if l == "Most used" else " ps" if l == "Playstyle" else " acc" if l == "Accolades" else ""}"><span class="rlab">{l}</span><span class="rval">{v}</span></div>' for l, v in rows)
     return (f'<section class="resume"><div class="rname"><h2>{name}</h2><span class="trophies">{t}</span></div>{body}</section>')
 
 resumes = ('<div class="resumes">'
-    + resume('LUCIAN', 2, 'UNSELFISH · RELENTLESS · SUFFOCATING', '13 – 2', '2 – 0 · Titles: 2', '2 – 2', '87%', [('cavs16', 4), ('mavs19', 4), ('cavs0607', 3)])
-    + resume('JOSIAH', 0, 'BIG-CENTRIC · RESILIENT · FADING', '2 – 13', '0 – 2 · Titles: 0', '2 – 2', '13%', [('spurs98', 4), ('clippers14', 4), ('rockets19', 4)])
+    + resume('LUCIAN', 2, 'UNSELFISH · RELENTLESS · SUFFOCATING', '2× Champion · Two 4–0 sweeps · W12 streak', '13 – 2', '2 – 0 · Titles: 2', '2 – 2', '87%', [('cavs16', 4), ('mavs19', 4), ('cavs0607', 3)])
+    + resume('JOSIAH', 0, 'BIG-CENTRIC · RESILIENT · FADING', 'Wins over \'96 Bulls + \'01 76ers · 0 titles', '2 – 13', '0 – 2 · Titles: 0', '2 – 2', '13%', [('spurs98', 4), ('clippers14', 4), ('rockets19', 4)])
+    + resume('ABDUL GUEYE', 0, 'NO · GAMES · YET', 'New challenger · No games yet', '0 – 0', '0 – 0 · Titles: 0', '0 – 0', '—', 'No games yet')
     + '</div>')
 
 # One CSS class per asset — each PNG inlined exactly once (see header note).
@@ -149,92 +152,98 @@ LOGO_CSS = '\n'.join(
     + ['.logo-trophy{background-image:url("assets/trophy.png")}'])
 
 CSS = """
+:root{color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#fff;color:#111;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+body{background:#000;color:#f5f5f0;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
 .wrap{max-width:880px;margin:0 auto;padding:20px 16px 40px}
-header{text-align:center;border-bottom:3px double #111;padding-bottom:10px;margin-bottom:14px}
+header{text-align:center;border-bottom:3px double #f5f5f0;padding-bottom:10px;margin-bottom:14px}
 header h1{font-family:Georgia,'Times New Roman',serif;font-size:34px;letter-spacing:1px}
-header .sub{font-size:12px;letter-spacing:2.5px;color:#444;margin-top:4px;text-transform:uppercase}
+header .sub{font-size:12px;letter-spacing:2.5px;color:#a8a8a0;margin-top:4px;text-transform:uppercase}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 __LOGOS__
 .chip{display:inline-block;width:38px;height:38px;border:2px solid #999;background-color:#fff;background-size:contain;background-repeat:no-repeat;background-position:center;flex:none}
 .mtrophy{display:block;width:27px;height:52px;background-size:contain;background-repeat:no-repeat;background-position:center}
 .mini-trophy{display:inline-block;width:11px;height:22px;background-size:contain;background-repeat:no-repeat;background-position:center}
-.resumes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
-.resume{border:1px solid #111;padding:12px 14px}
-.rname{display:flex;align-items:center;gap:8px;height:34px;border-bottom:1px solid #ddd;margin-bottom:8px}
-.rname h2{font-family:Georgia,serif;font-size:22px;letter-spacing:1px}
+.resumes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.resume{border:1px solid #262626;padding:12px 14px;background:linear-gradient(180deg,#101010,#0a0a0a);position:relative}
+.resume::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#7dd7ff,#e8b4ff,#ffe9a8,#9ff5d2,#7dd7ff)}
+.resume::after{content:"★";position:absolute;top:8px;right:10px;font-size:11px;color:#d8b25c}
+.rname{display:flex;align-items:center;gap:8px;height:34px;border-bottom:1px solid #262626;margin-bottom:8px}
+.rname h2{font-family:Georgia,serif;font-size:22px;letter-spacing:1px;color:#f5f5f0}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+.rname h2{background:linear-gradient(180deg,#ffffff 0%,#dfe9f2 38%,#8fa3b8 52%,#f4f9fc 68%,#c7d3de 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+}
 .trophies{display:inline-flex;gap:3px;align-items:center}
-.rrow{display:grid;grid-template-columns:86px 1fr;align-items:center;min-height:30px;border-bottom:1px solid #eee;font-size:14px}
+.rrow{display:grid;grid-template-columns:86px 1fr;align-items:center;min-height:30px;border-bottom:1px solid #1f1f1f;font-size:14px}
 .rrow:last-child{border-bottom:none}
 .rrow.mu{min-height:46px;align-items:start;padding-top:5px}
-.rlab{color:#595959;font-size:11px;letter-spacing:1.2px;text-transform:uppercase}
+.rlab{color:#a8a8a0;font-size:11px;letter-spacing:1.2px;text-transform:uppercase}
 .rval{font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .pstyle{font-variant:small-caps;letter-spacing:1.2px;font-size:13px;line-height:1.35}
 .rval .chip{width:26px;height:26px}
-nav.tabs{display:flex;border-bottom:2px solid #111;position:sticky;top:0;background:#fff;z-index:5}
-nav.tabs button{flex:1;background:none;border:none;border-right:1px solid #ddd;padding:12px 4px;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:pointer;min-height:48px;color:#111;font-family:inherit}
+nav.tabs{display:flex;border-bottom:2px solid #f5f5f0;position:sticky;top:0;background:#000;z-index:5}
+nav.tabs button{flex:1;background:none;border:none;border-right:1px solid #262626;padding:12px 4px;font-size:14px;font-weight:700;letter-spacing:.5px;cursor:pointer;min-height:48px;color:#f5f5f0;font-family:inherit}
 nav.tabs button:last-child{border-right:none}
 nav.tabs button[aria-selected="true"]{box-shadow:inset 0 -4px 0 #c8102e}
-nav.tabs button:focus-visible{outline:3px solid #005fcc;outline-offset:-3px}
+nav.tabs button:focus-visible{outline:3px solid #7ab8ff;outline-offset:-3px}
 .panel{padding-top:14px}
 html.js .panel{display:none}
 html.js .panel.active{display:block}
-.panel:focus-visible{outline:3px solid #005fcc;outline-offset:2px}
-.strip{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid #ddd;margin-bottom:14px}
-.strip .cell{padding:7px 10px;border-right:1px solid #eee;display:flex;flex-direction:column}
+.panel:focus-visible{outline:3px solid #7ab8ff;outline-offset:2px}
+.strip{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid #262626;background:#0a0a0a;margin-bottom:14px}
+.strip .cell{padding:7px 10px;border-right:1px solid #1f1f1f;display:flex;flex-direction:column}
 .strip .cell:last-child{border-right:none}
-.clab{font-size:11px;letter-spacing:1.5px;color:#595959;text-transform:uppercase}
+.clab{font-size:11px;letter-spacing:1.5px;color:#a8a8a0;text-transform:uppercase}
 .cval{font-size:14px;font-weight:700}
 .headline{font-family:Georgia,serif;font-size:30px;line-height:1.15;margin:4px 0 12px}
-.mbox{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #111;padding:12px 14px;margin-bottom:14px}
+.mbox{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #262626;background:#0a0a0a;padding:12px 14px;margin-bottom:14px}
 .mside{display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:700;font-size:14px;min-width:86px;text-align:center}
 .mcenter{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
 .mcenter.solo{margin:0 auto}
-.mct{font-size:11px;letter-spacing:1.5px;color:#595959;text-transform:uppercase}
+.mct{font-size:11px;letter-spacing:1.5px;color:#a8a8a0;text-transform:uppercase}
 .mcb{font-weight:800;font-size:15px}
-.results{border-top:1px solid #111}
-.row{display:grid;grid-template-columns:34px 1fr auto 1fr;align-items:center;gap:8px;padding:7px 2px;border-bottom:1px solid #e5e5e5;min-height:52px}
-.glabel{font-weight:800;font-size:13px;color:#444}
+.results{border-top:1px solid #3a3a3a}
+.row{display:grid;grid-template-columns:34px 1fr auto 1fr;align-items:center;gap:8px;padding:7px 2px;border-bottom:1px solid #1f1f1f;min-height:52px}
+.glabel{font-weight:800;font-size:13px;color:#c9c9c2}
 .team{display:flex;align-items:center;gap:8px;min-width:0}
 .team:last-child{justify-content:flex-end;text-align:right}
 .team:last-child .tmeta{align-items:flex-end}
 .tmeta{display:flex;flex-direction:column;min-width:0}
 .tname{font-weight:600;font-size:14px;white-space:nowrap}
 .team.winner .tname{font-weight:800}
-.tcap{font-size:11px;color:#595959;white-space:nowrap}
-.star{color:#8a6508}
-.vs{font-size:12px;color:#595959;font-style:italic;text-align:center}
-.row.muted{background:#fafafa}
-.row.muted .tname,.row.muted .glabel{color:#595959}
-details.wirebox,details.unplayed{margin-top:16px;border:1px solid #ddd}
-details.unplayed .results{border-top:1px solid #eee}
-summary{cursor:pointer;min-height:48px;display:flex;align-items:center;gap:9px;padding:10px 14px;font-size:12px;font-weight:700;color:#111;list-style:none}
+.tcap{font-size:11px;color:#a8a8a0;white-space:nowrap}
+.star{color:#e3b341}
+.vs{font-size:12px;color:#a8a8a0;font-style:italic;text-align:center}
+.row.muted{background:#0d0d0d}
+.row.muted .tname,.row.muted .glabel{color:#a8a8a0}
+details.wirebox,details.unplayed{margin-top:16px;border:1px solid #262626;background:#0a0a0a}
+details.unplayed .results{border-top:1px solid #1f1f1f}
+summary{cursor:pointer;min-height:48px;display:flex;align-items:center;gap:9px;padding:10px 14px;font-size:12px;font-weight:700;color:#f5f5f0;list-style:none}
 summary::-webkit-details-marker{display:none}
-summary::before{content:"";flex:none;width:0;height:0;border-left:7px solid #111;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent}
+summary::before{content:"";flex:none;width:0;height:0;border-left:7px solid #f5f5f0;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent}
 details[open ]>summary::before{transform:rotate(90deg)}
-summary:focus-visible{outline:3px solid #005fcc;outline-offset:-3px}
+summary:focus-visible{outline:3px solid #7ab8ff;outline-offset:-3px}
 .sumlab{letter-spacing:1.5px}
 .sumreason{letter-spacing:0}
 .wire{padding:2px 14px 10px}
-.wline{font-family:Georgia,serif;font-weight:700;font-size:15px;padding:5px 0;border-bottom:1px solid #f0f0f0}
+.wline{font-family:Georgia,serif;font-weight:700;font-size:15px;padding:5px 0;border-bottom:1px solid #1f1f1f}
 .wline:last-child{border-bottom:none}
-footer{margin-top:22px;border-top:1px solid #ddd;padding-top:8px;font-size:11px;color:#595959;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+footer{margin-top:22px;border-top:1px solid #262626;padding-top:8px;font-size:11px;color:#a8a8a0;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 @media (max-width:640px){
   header h1{font-size:27px}
   .headline{font-size:24px}
-  .resumes{gap:10px}
+  .resumes{gap:10px;grid-template-columns:1fr}
   .resume{padding:9px 10px}
   .rname{height:32px}
   .rname h2{font-size:19px}
   .rrow{grid-template-columns:57px 1fr;min-height:32px}
-  .rrow.ps{min-height:64px}
-  .rrow.mu{min-height:168px}
+  .rrow.ps{min-height:40px}
+  .rrow.mu{min-height:46px}
   .rlab{letter-spacing:0;text-transform:none}
   .rval{font-size:12.5px}
   nav.tabs button{font-size:12px;padding:10px 2px}
   .strip{grid-template-columns:repeat(3,1fr)}
-  .strip .cell{border-bottom:1px solid #eee}
+  .strip .cell{border-bottom:1px solid #1f1f1f}
   .strip .cell:nth-child(3n){border-right:none}
   .row{grid-template-columns:26px 1fr auto 1fr;gap:5px}
   .tname{font-size:13px;white-space:normal}
