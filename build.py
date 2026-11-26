@@ -141,7 +141,7 @@ def resume(name, trophies, playstyle, accolades, overall, finals, rounds_rec, wi
     return (f'<section class="resume{cls}"><div class="rname"><h2>{name}</h2><span class="trophies">{t}</span></div>{body}</section>')
 
 resumes = ('<div class="resumes">'
-    + resume('LUCIAN BRUCKER', 2, 'UNSELFISH · RELENTLESS · SUFFOCATING', '2× Champion · Two 4–0 sweeps · W12 streak', '13 – 2', '2 – 0 · Titles: 2', '2 – 2', '87%', [('cavs16', 4), ('mavs19', 4), ('cavs0607', 3)])
+    + resume('LUCIAN BRUCKER', 2, 'UNSELFISH · RELENTLESS · SUFFOCATING', '2× Champion · Two 4–0 sweeps · W12 streak', '13 – 2', '2 – 0 · Titles: 2', '2 – 2', '87%', [('cavs16', 4), ('mavs19', 4), ('cavs0607', 3)], cls=' lucian')
     + resume('JOSIAH GOODWIN-HAMLIN', 0, 'BIG-CENTRIC · RESILIENT · FADING', 'Wins over \'96 Bulls + \'01 76ers · 0 titles', '2 – 13', '0 – 2 · Titles: 0', '2 – 2', '13%', [('spurs98', 4), ('clippers14', 4), ('rockets19', 4)], cls=' josiah')
     + resume('ABDUL GUEYE', 0, 'NO · GAMES · YET', 'New challenger · No games yet', '0 – 0', '0 – 0 · Titles: 0', '0 – 0', '—', 'No games yet', cls=' abdul')
     + '</div>')
@@ -168,6 +168,7 @@ __LOGOS__
 .resume{border:1px solid #262626;padding:12px 14px;background:linear-gradient(180deg,#101010,#0a0a0a);position:relative}
 .resume::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#7dd7ff,#e8b4ff,#ffe9a8,#9ff5d2,#7dd7ff)}
 .resume::after{content:"★";position:absolute;top:8px;right:10px;font-size:11px;color:#d8b25c}
+.resume.lucian{background-color:#0a0a0a;background-image:linear-gradient(180deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.90) 40%,rgba(0,0,0,.94) 70%,rgba(0,0,0,.97) 100%),url("assets/lucian-card.webp");background-size:cover;background-position:center 20%;background-repeat:no-repeat}
 .resume.josiah{background-color:#0a0a0a;background-image:linear-gradient(180deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.90) 40%,rgba(0,0,0,.94) 70%,rgba(0,0,0,.97) 100%),url("assets/josiah-card.webp");background-size:cover;background-position:center 20%;background-repeat:no-repeat}
 .resume.abdul{background-color:#0a0a0a;background-image:linear-gradient(180deg,rgba(0,0,0,.60) 0%,rgba(0,0,0,.72) 45%,rgba(0,0,0,.95) 100%),url("assets/abdul-card.webp");background-size:cover;background-position:center 20%;background-repeat:no-repeat}
 .rname{display:flex;align-items:center;gap:8px;min-height:34px;border-bottom:1px solid #262626;margin-bottom:8px;padding:3px 0}
