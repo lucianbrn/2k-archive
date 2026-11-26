@@ -141,8 +141,8 @@ def resume(name, trophies, playstyle, accolades, overall, finals, rounds_rec, wi
     return (f'<section class="resume"><div class="rname"><h2>{name}</h2><span class="trophies">{t}</span></div>{body}</section>')
 
 resumes = ('<div class="resumes">'
-    + resume('LUCIAN', 2, 'UNSELFISH · RELENTLESS · SUFFOCATING', '2× Champion · Two 4–0 sweeps · W12 streak', '13 – 2', '2 – 0 · Titles: 2', '2 – 2', '87%', [('cavs16', 4), ('mavs19', 4), ('cavs0607', 3)])
-    + resume('JOSIAH', 0, 'BIG-CENTRIC · RESILIENT · FADING', 'Wins over \'96 Bulls + \'01 76ers · 0 titles', '2 – 13', '0 – 2 · Titles: 0', '2 – 2', '13%', [('spurs98', 4), ('clippers14', 4), ('rockets19', 4)])
+    + resume('LUCIAN BRUCKER', 2, 'UNSELFISH · RELENTLESS · SUFFOCATING', '2× Champion · Two 4–0 sweeps · W12 streak', '13 – 2', '2 – 0 · Titles: 2', '2 – 2', '87%', [('cavs16', 4), ('mavs19', 4), ('cavs0607', 3)])
+    + resume('JOSIAH GOODWIN-HAMLIN', 0, 'BIG-CENTRIC · RESILIENT · FADING', 'Wins over \'96 Bulls + \'01 76ers · 0 titles', '2 – 13', '0 – 2 · Titles: 0', '2 – 2', '13%', [('spurs98', 4), ('clippers14', 4), ('rockets19', 4)])
     + resume('ABDUL GUEYE', 0, 'NO · GAMES · YET', 'New challenger · No games yet', '0 – 0', '0 – 0 · Titles: 0', '0 – 0', '—', 'No games yet')
     + '</div>')
 
@@ -168,8 +168,8 @@ __LOGOS__
 .resume{border:1px solid #262626;padding:12px 14px;background:linear-gradient(180deg,#101010,#0a0a0a);position:relative}
 .resume::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#7dd7ff,#e8b4ff,#ffe9a8,#9ff5d2,#7dd7ff)}
 .resume::after{content:"★";position:absolute;top:8px;right:10px;font-size:11px;color:#d8b25c}
-.rname{display:flex;align-items:center;gap:8px;height:34px;border-bottom:1px solid #262626;margin-bottom:8px}
-.rname h2{font-family:Georgia,serif;font-size:22px;letter-spacing:1px;color:#f5f5f0}
+.rname{display:flex;align-items:center;gap:8px;min-height:34px;border-bottom:1px solid #262626;margin-bottom:8px;padding:3px 0}
+.rname h2{font-family:Georgia,serif;font-size:22px;letter-spacing:1px;line-height:1.15;color:#f5f5f0}
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
 .rname h2{background:linear-gradient(180deg,#ffffff 0%,#dfe9f2 38%,#8fa3b8 52%,#f4f9fc 68%,#c7d3de 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 }
@@ -229,12 +229,16 @@ summary:focus-visible{outline:3px solid #7ab8ff;outline-offset:-3px}
 .wline{font-family:Georgia,serif;font-weight:700;font-size:15px;padding:5px 0;border-bottom:1px solid #1f1f1f}
 .wline:last-child{border-bottom:none}
 footer{margin-top:22px;border-top:1px solid #262626;padding-top:8px;font-size:11px;color:#a8a8a0;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media (min-width:641px){
+  .rname h2{font-size:19px}
+  .rname{min-height:51px}
+}
 @media (max-width:640px){
   header h1{font-size:27px}
   .headline{font-size:24px}
   .resumes{gap:10px;grid-template-columns:1fr}
   .resume{padding:9px 10px}
-  .rname{height:32px}
+  .rname{min-height:32px}
   .rname h2{font-size:19px}
   .rrow{grid-template-columns:57px 1fr;min-height:32px}
   .rrow.ps{min-height:40px}
